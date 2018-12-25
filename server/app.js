@@ -1,10 +1,11 @@
 const express = require('express');
 var path = require('path');
+var cors =require('cors')
 var app = express();
 app.use(express.static('/client'))
 app.use(express.static(__dirname + '/client'));
 app.get('/', (req, res) => {
-  res.sendFile('index.html');
+  res.sendFile('/home/rameswar/Desktop/mountblue_4.18/javascript/client/index.html');
 
 });
 var csvToJson = require('convert-csv-to-json');

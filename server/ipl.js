@@ -7,17 +7,15 @@ module.exports.totalMatches = totalMatches;
 module.exports.teamWise_win = teamWise_win;
 module.exports.extra_Run = extra_Run;
 module.exports.bowler = bowler;
+
 function totalMatches() {
-  var totalNoOfMatches = {};
-  for (var i = 0; i < len; i++) {
-    if (totalNoOfMatches[matchesDataset[i].season] != undefined) {
-      totalNoOfMatches[matchesDataset[i].season] += 1;
-    } else {
-      totalNoOfMatches[matchesDataset[i].season] = 1;
-    }
-  }
-  return totalNoOfMatches;
+  var arr =matchesDataset.reduce(function(com , com1){
+  com[com1['season']]  = (com[com1['season']] || 0) + 1
+   return com
+},{});
+  return arr;
 }
+
 function teamWise_win() {
   var teamWiseWin = {};
 
@@ -48,20 +46,14 @@ function extra_Run() {
       idArray.push(matchesDataset[i].id);
     }
   }
-  var extraRun = {};
-  for (var i = 0; i < idArray.length; i++) {
-    for (var j = 0; j < len_deliver; j++) {
-      if (deliveriesDataset[j].match_id == idArray[i]) {
-        if (extraRun[deliveriesDataset[j].batting_team] != undefined) {
-          extraRun[deliveriesDataset[j].batting_team] += parseInt(deliveriesDataset[j].extra_runs);
-        } else {
-          extraRun[deliveriesDataset[j].batting_team] = 0;
-        }
 
-      }
+  var arr =deliveriesDataset.reduce(function(id ,id1){
+    if(idArray.includes(id1['match_id'])){
+       id[id1['batting_team']]  = ((id[id1['batting_team']]||0) + parseInt(id1['extra_runs']));
     }
-  }
-  return extraRun;
+    return id;
+  },{});
+  return arr;
 }
 
 function bowler() {
@@ -72,37 +64,29 @@ function bowler() {
       idArray_2015.push(matchesDataset[i].id);
     }
   }
-  var nameAndRun = {};
-  var nameAndbowl = {};
-  for (var i = 0; i < idArray_2015.length; i++) {
-    for (var j = 0; j < len_deliver; j++) {
-      if (deliveriesDataset[j].match_id == idArray_2015[i]) {
-        if (nameAndRun[deliveriesDataset[j].bowler] != undefined) {
-          nameAndRun[deliveriesDataset[j].bowler] += (parseInt(deliveriesDataset[j].total_runs)-(parseInt(deliveriesDataset[j].extra_runs)));
-          nameAndbowl[deliveriesDataset[j].bowler] += 1;
-        } else {
-          nameAndRun[deliveriesDataset[j].bowler] = 0;
-          nameAndbowl[deliveriesDataset[j].bowler] = 0;
-        }
-      }
-    }
+var arr1 =deliveriesDataset
+        .filter(id => idArray_2015.includes(id['match_id']))
+var arr2 =arr1.reduce(function(run ,run1){
+          run[run1['bowler']] =(run[run1['bowler']] ||0) +(parseInt(run1['total_runs'])- parseInt(run1['extra_runs']))
+          return run;
+        },{});
+var arr3 = arr1.reduce(function(bowl, bowl1){
+  bowl[bowl1['bowler']]=(bowl[bowl1['bowler']] || 0)+1;
+  return bowl;
+}, {});
+for (var key in arr2) {
+   arr2[key]=(arr2[key]/(arr3[key]/6)).toFixed(2);
+}
+
+var bowlersArr = [];
+  for (economy in arr2) {
+      bowlersArr.push([economy, parseFloat(arr2[economy])]);
   }
+  bowlersArr.sort(function (bowlersEconomyData1, bowlersEconomyData2) {
 
-  var x;
-  for (x in nameAndRun) {
-    nameAndRun[x] = ((nameAndRun[x]) / (nameAndbowl[x] / 6)).toFixed(2);
-  }
-  var bowlersArr = [];
-    for (economy in nameAndRun) {
-        bowlersArr.push([economy, parseFloat(nameAndRun[economy])]);
-    }
-    bowlersArr.sort(function (bowlersEconomyData1, bowlersEconomyData2) {
-
-        return bowlersEconomyData1[1] - bowlersEconomyData2[1];
-    });
-
-
-
+      return bowlersEconomyData1[1] - bowlersEconomyData2[1];
+  });
   return bowlersArr.slice(0, 5);
+
 
 }

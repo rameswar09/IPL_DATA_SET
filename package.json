@@ -1,0 +1,24 @@
+{
+  "name": "javascript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "convert-csv-to-json": "^0.0.13",
+    "cors": "^2.8.5",
+    "csv-to-json": "^0.1.2",
+    "express": "^4.16.4",
+    "lodash": "^4.17.11",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/mountblue/dec-js-419/rameswar_ipl_server_data.git"
+  },
+  "author": "",
+  "license": "ISC"
+}

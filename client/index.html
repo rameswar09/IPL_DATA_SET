@@ -18,7 +18,7 @@
   <div id="container1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
   <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
   <script type="text/javascript">
-
+//-----------------------------------------------------------------------------------------------------------------------------
     function getData1() {
       fetch('http://localhost:3000/total_matches')
         .then(res => res.json())
@@ -33,29 +33,30 @@
               'data': arr
             })
           }
-          drawMatch(yearOfIpl);
-           console.log(yearOfIpl);
+           drawMatch(yearOfIpl);
+          //  console.log(yearOfIpl);
         })
         .catch(error => console.error(error))
     }
-
+//---------------------------------------------------------------------------------------------------------------------------
     function getData2() {
       fetch('http://localhost:3000/team_win')
         .then(res => res.json())
         .then(data => {
           console.log(data);
-          console.log(getYear(data));
-          console.log(getNameAndwin(data));
-          console.log(getchatobject(getYear(data),getNameAndwin(data),data));
-          drawTeamWise(getYear(data),getchatobject(getYear(data),getNameAndwin(data),data));
+          // console.log(getYear(data));
+          // console.log(getNameAndwin(data));
+          // console.log(getchatobject(getYear(data),getNameAndwin(data),data));
+          // drawTeamWise(getYear(data),getchatobject(getYear(data),getNameAndwin(data),data));
         })
         .catch(error => console.error(error))
     }
-
+//-------------------------------------------------------------------------------------------------------------------------------
     function getData3() {
       fetch('http://localhost:3000/extra_Run')
         .then(res => res.json())
         .then(data => {
+          console.log(data);
           var extraRunTeam = [];
           for (var key in data) {
             var arr=[];
@@ -65,22 +66,23 @@
               'data': arr
             })
           }
-          drawExtraRun(extraRunTeam);
-          console.log(extraRunTeam);
+           drawExtraRun(extraRunTeam);
+           //console.log(extraRunTeam);
         })
         .catch(error => console.error(error))
     }
-
+//-----------------------------------------------------------------------------------------------------------------------------
     function getData4() {
       fetch('http://localhost:3000/bowler_Eco')
         .then(res => res.json())
         .then(data => {
           console.log(data);
-          drawPi(data);
+           drawPi(data);
 
         })
         .catch(error => console.error(error))
     }
+//-----------------------------------------------------------------------------------------------------------------------------
     function getchatobject(year,team,data){
       var demo =[];
       team.forEach((team) =>{
@@ -94,6 +96,7 @@
       })
       return demo;
     }
+//------------------------------------------------------------------------------------------------------------------------------
     function getYear(data){
       var arr=[];
       for(var key in data){
@@ -101,6 +104,7 @@
       }
       return arr;
     }
+//-------------------------------------------------------------------------------------------------------------------------------
      function getNameAndwin(data){
        var arr=[];
        var arr2=[];
@@ -115,6 +119,7 @@
           return([...new Set(arr2)])
 
      }
+//----------------------------------------------------------------------------------------------------------------------------------
 
     function drawMatch(data){
       Highcharts.chart('container1', {
@@ -149,6 +154,7 @@
 
 });
     }
+  //-------------------------------------------------------------------------------------------------------------------------------
     function drawExtraRun(data){
       Highcharts.chart('container1', {
   chart: {
@@ -182,6 +188,7 @@
 
 });
     }
+//----------------------------------------------------------------------------------------------------------------------------------------
     function drawTeamWise(year,data){
       Highcharts.chart('container1', {
   chart: {
@@ -221,6 +228,7 @@
 
 
     }
+//-----------------------------------------------------------------------------------------------------------------------------------
     function drawPi(data) {
       Highcharts.chart('container1', {
   chart: {
